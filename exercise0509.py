@@ -1,6 +1,7 @@
 import numpy as np
 from PIL import Image
 import random
+import math
 
 def main():
 
@@ -45,9 +46,13 @@ def main():
         cov_GB = sum_GB/10
         cov_BR = sum_BR/10
 
-        cov_Matrix = np.array([variance[0], cov_RG, cov_BR, cov_RG, variance[1], cov_GB, cov_BR, cov_GB, variance[2]]).reshape((3,3))
+        cov_Matrix     = np.array([variance[0], cov_RG, cov_BR, cov_RG, variance[1], cov_GB, cov_BR, cov_GB, variance[2]]).reshape((3,3))
+        inv_cov_Matrix = np.linalg.inv(cov_Matrix)
+        det_cov_Matrix = np.linalg.det(cov_Matrix)
 
-        
+
+        L = ( (2*math.pi)**(5/2) * (det_cov_Matrix)**(1/2) )**(-1) * np.exp(((np.array(100, 100, 100)-mean_training_data).T)*inv_cov_Matrix*(np.array(100, 100, 100)-mean_training_data))
+        print(L)
 
 if __name__ == "__main__":
     main()
