@@ -45,7 +45,9 @@ def main():
         cov_GB = sum_GB/10
         cov_BR = sum_BR/10
 
-    
+        cov_Matrix = np.array([variance[0], cov_RG, cov_BR, cov_RG, variance[1], cov_GB, cov_BR, cov_GB, variance[2]]).reshape((3,3))
+
+        
 
 if __name__ == "__main__":
     main()
