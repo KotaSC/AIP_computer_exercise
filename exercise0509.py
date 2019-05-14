@@ -17,7 +17,7 @@ def ReadImage( _img_name ):
 
 def main():
 
-    d = 5
+    d       = 5
     channel = 3
     mean = np.empty( (d, channel), float )
     cov  = np.empty( (channel, channel, d), float )
@@ -56,28 +56,28 @@ def main():
         sum_GB = 0
         sum_BR = 0
 
-        for h in range(10):
+        for j in range(10):
 
-            sum_RG += (tmp_R[h] - mean_training_data[0])*(tmp_G[h] - mean_training_data[1])
-            sum_GB += (tmp_G[h] - mean_training_data[1])*(tmp_B[h] - mean_training_data[2])
-            sum_BR += (tmp_B[h] - mean_training_data[2])*(tmp_R[h] - mean_training_data[0])
+            sum_RG += (tmp_R[j] - mean_training_data[0])*(tmp_G[j] - mean_training_data[1])
+            sum_GB += (tmp_G[j] - mean_training_data[1])*(tmp_B[j] - mean_training_data[2])
+            sum_BR += (tmp_B[j] - mean_training_data[2])*(tmp_R[j] - mean_training_data[0])
 
         cov_RG = sum_RG/10
         cov_GB = sum_GB/10
         cov_BR = sum_BR/10
 
         cov_Matrix = np.array([var[0], cov_RG, cov_BR, cov_RG, var[1], cov_GB, cov_BR, cov_GB, var[2]]).reshape((3,3))
-        
-        mean[i, :] = mean_training_data
+
+        mean[i, :]   = mean_training_data
         cov[:, :, i] = cov_Matrix
-    # end for
 
     print("mean :\n", mean)
     print("cov :\n", cov)
 
-    satellite_image = ReadImage("./image/irabu_zhang1.bmp")
-    height, width = satellite_image.shape[0], satellite_image.shape[1]
-    result_image = np.empty( (height, width), np.uint8 )
+    satellite_image = ReadImage("image/irabu_zhang1.bmp")
+    height, width   = satellite_image.shape[0], satellite_image.shape[1]
+    result_image    = np.empty( (height, width), np.uint8 )
+
     for h in range(height):
         for w in range(width):
             # Step 3
@@ -92,10 +92,10 @@ def main():
                 det = np.linalg.det(cov[:,:,k])
                 inv = np.linalg.inv(cov[:,:,k])
 
-                left = ( 2*np.pi**(d/2) * det**(0.5) ) ** (-1)
-                D = np.dot( np.dot( (x-mean[k,:]).T, inv ), x-mean[k,:] )
+                left  = ( 2*np.pi**(d/2) * det**(0.5) ) ** (-1)
+                D     = np.dot( np.dot( (x-mean[k,:]).T, inv ), x-mean[k,:] )
                 right = np.exp(-0.5*D)
-                L = left * right
+                L     = left * right
 
                 P.append(L)
 
