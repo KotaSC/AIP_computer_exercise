@@ -50,9 +50,15 @@ def main():
         inv_cov_Matrix = np.linalg.inv(cov_Matrix)
         det_cov_Matrix = np.linalg.det(cov_Matrix)
 
+        D = (np.array([100, 100, 100])-mean_training_data).T*inv_cov_Matrix*(np.array([100, 100, 100])-mean_training_data)
 
-        L = ( (2*math.pi)**(5/2) * (det_cov_Matrix)**(1/2) )**(-1) * np.exp(((np.array(100, 100, 100)-mean_training_data).T)*inv_cov_Matrix*(np.array(100, 100, 100)-mean_training_data))
+        bunbo = ((2*math.pi)**(5/2)) * ((det_cov_Matrix)**(1/2) )
+        L = np.exp(D) / bunbo
         print(L)
+        # print(det_cov_Matrix**(1/2))
+        # test= np.array([100, 100, 100])
+        # print(test.shape)
+        # print(np.array(100, 100, 100)-mean_training_data)
 
 if __name__ == "__main__":
     main()
