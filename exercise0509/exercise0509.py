@@ -18,7 +18,6 @@ def main():
     mean      = np.empty( (d, channel), float )
     cov       = np.empty( (channel, channel, d), float )
 
-    # 画像読み込み
     for i in range(d):
 
         # Read each class image
